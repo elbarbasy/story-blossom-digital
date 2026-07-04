@@ -401,16 +401,16 @@ function Statistics() {
     { v: 24, s: "/7", l: "Support" },
   ];
   return (
-    <section className="py-24">
+    <section className="py-16 sm:py-24">
       <div className="container-1280">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((s, i) => (
             <FadeUp key={i} delay={i * 0.08}>
-              <div className="rounded-3xl border border-border bg-white p-8 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)] transition-shadow">
-                <div className="text-5xl font-extrabold tracking-tight text-gradient-brand">
+              <div className="rounded-3xl border border-border bg-white p-5 sm:p-8 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)] transition-shadow">
+                <div className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gradient-brand">
                   <Counter to={s.v} suffix={s.s} />
                 </div>
-                <div className="mt-2 text-sm text-muted-foreground">{s.l}</div>
+                <div className="mt-2 text-xs sm:text-sm text-muted-foreground">{s.l}</div>
               </div>
             </FadeUp>
           ))}
