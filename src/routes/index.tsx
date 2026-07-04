@@ -844,7 +844,7 @@ function FinalCTA() {
   return (
     <section id="contact" className="py-16 sm:py-24">
       <div className="container-1280">
-        <div className="relative overflow-hidden rounded-[2rem] bg-ink p-10 sm:p-16 text-white">
+        <div className="relative overflow-hidden rounded-[2rem] bg-ink p-6 sm:p-10 md:p-16 text-white">
           <div className="absolute -top-20 -left-20 h-80 w-80 rounded-full bg-primary/40 blur-3xl animate-blob" />
           <div className="absolute -bottom-24 -right-16 h-96 w-96 rounded-full bg-primary-deep/40 blur-3xl animate-blob" style={{ animationDelay: "-5s" }} />
           <div className="absolute inset-0 bg-grid opacity-[0.08]" />
@@ -855,13 +855,13 @@ function FinalCTA() {
               </span>
             </FadeUp>
             <FadeUp delay={0.1}>
-              <h2 className="mt-6 text-4xl sm:text-6xl font-extrabold tracking-[-0.02em] leading-tight">
+              <h2 className="mt-6 text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-[-0.02em] leading-tight">
                 Ready to build your{" "}
                 <span className="bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">website?</span>
               </h2>
             </FadeUp>
             <FadeUp delay={0.15}>
-              <p className="mt-5 text-lg text-white/70 max-w-xl">Let's discuss your project today. Free 30-minute consultation, no strings attached.</p>
+              <p className="mt-5 text-base sm:text-lg text-white/70 max-w-xl">Let's discuss your project today. Free 30-minute consultation, no strings attached.</p>
             </FadeUp>
             <FadeUp delay={0.25}>
               <div className="mt-8 flex flex-wrap gap-3">
