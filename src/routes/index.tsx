@@ -230,14 +230,14 @@ function Hero() {
             </span>
           </FadeUp>
           <FadeUp delay={0.05}>
-            <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] leading-[1.02] text-ink">
+            <h1 className="mt-6 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] leading-[1.05] text-ink">
               Build Websites That{" "}
               <span className="text-gradient-brand">Grow Your Business</span>{" "}
               Faster.
             </h1>
           </FadeUp>
           <FadeUp delay={0.15}>
-            <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-5 sm:mt-6 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
               We create modern, responsive, SEO-friendly websites that help businesses increase credibility and sales — from landing pages to full custom systems.
             </p>
           </FadeUp>
