@@ -134,10 +134,10 @@ function Navbar() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "py-2" : "py-4"}`}>
       <div className="container-1280">
-        <nav className={`flex items-center justify-between rounded-full border border-border/70 pl-3 pr-2 py-2 transition-all ${scrolled ? "glass shadow-[var(--shadow-soft)]" : "bg-white/50 backdrop-blur"}`}>
-          <a href="#home" className="flex items-center gap-2 pl-1">
-            <img src={logoAsset.url} alt="CodeStory" className="h-9 w-9 rounded-lg object-cover" />
-            <span className="font-extrabold tracking-tight text-ink text-lg">
+        <nav className={`flex items-center justify-between gap-3 rounded-full border border-border/70 pl-3 pr-2 py-2 transition-all ${scrolled ? "glass shadow-[var(--shadow-soft)]" : "bg-white/50 backdrop-blur"}`}>
+          <a href="#home" className="flex min-w-0 items-center gap-2 pl-1">
+            <img src={logoAsset.url} alt="CodeStory" className="h-8 w-8 sm:h-9 sm:w-9 shrink-0 rounded-lg object-cover" />
+            <span className="truncate font-extrabold tracking-tight text-ink text-base sm:text-lg">
               Code<span className="text-primary">Story</span>
             </span>
           </a>
@@ -150,10 +150,12 @@ function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-2">
-            <MagneticButton href="#contact" className="hidden sm:inline-flex !py-2.5 !px-5">
-              Free Consultation <ArrowRight className="h-4 w-4" />
-            </MagneticButton>
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden sm:block">
+              <MagneticButton href="#contact" className="!py-2.5 !px-5 whitespace-nowrap">
+                Free Consultation <ArrowRight className="h-4 w-4" />
+              </MagneticButton>
+            </div>
             <button onClick={() => setOpen((v) => !v)} className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-ink" aria-label="Menu">
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
