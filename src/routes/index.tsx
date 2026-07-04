@@ -209,7 +209,7 @@ function Hero() {
   const rotY = useTransform(sx, [-1, 1], [-8, 8]);
 
   return (
-    <section id="home" ref={wrap} className="relative overflow-hidden pt-32 pb-24 bg-mesh-hero"
+    <section id="home" ref={wrap} className="relative overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-24 bg-mesh-hero"
       onMouseMove={(e) => {
         const r = wrap.current?.getBoundingClientRect();
         if (!r) return;
