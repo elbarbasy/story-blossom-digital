@@ -690,8 +690,8 @@ function Pricing() {
                 )}
                 <div className={`text-sm font-semibold ${p.highlight ? "text-primary/90" : "text-primary"}`}>{p.tag}</div>
                 <h3 className="mt-2 text-2xl font-bold">{p.name}</h3>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-5xl font-extrabold tracking-tight">{p.price}</span>
+                <div className="mt-4 flex items-baseline gap-2 flex-wrap">
+                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight">{p.price}</span>
                   {p.price.startsWith("$") && <span className={p.highlight ? "text-white/60" : "text-muted-foreground"}>/ project</span>}
                 </div>
                 <ul className={`mt-6 space-y-3 text-sm ${p.highlight ? "text-white/85" : "text-ink/80"}`}>
