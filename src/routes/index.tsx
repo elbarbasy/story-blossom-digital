@@ -134,10 +134,10 @@ function Navbar() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "py-2" : "py-4"}`}>
       <div className="container-1280">
-        <nav className={`flex items-center justify-between rounded-full border border-border/70 pl-3 pr-2 py-2 transition-all ${scrolled ? "glass shadow-[var(--shadow-soft)]" : "bg-white/50 backdrop-blur"}`}>
-          <a href="#home" className="flex items-center gap-2 pl-1">
-            <img src={logoAsset.url} alt="CodeStory" className="h-9 w-9 rounded-lg object-cover" />
-            <span className="font-extrabold tracking-tight text-ink text-lg">
+        <nav className={`flex items-center justify-between gap-3 rounded-full border border-border/70 pl-3 pr-2 py-2 transition-all ${scrolled ? "glass shadow-[var(--shadow-soft)]" : "bg-white/50 backdrop-blur"}`}>
+          <a href="#home" className="flex min-w-0 items-center gap-2 pl-1">
+            <img src={logoAsset.url} alt="CodeStory" className="h-8 w-8 sm:h-9 sm:w-9 shrink-0 rounded-lg object-cover" />
+            <span className="truncate font-extrabold tracking-tight text-ink text-base sm:text-lg">
               Code<span className="text-primary">Story</span>
             </span>
           </a>
@@ -150,10 +150,12 @@ function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-2">
-            <MagneticButton href="#contact" className="hidden sm:inline-flex !py-2.5 !px-5">
-              Free Consultation <ArrowRight className="h-4 w-4" />
-            </MagneticButton>
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden sm:block">
+              <MagneticButton href="#contact" className="!py-2.5 !px-5 whitespace-nowrap">
+                Free Consultation <ArrowRight className="h-4 w-4" />
+              </MagneticButton>
+            </div>
             <button onClick={() => setOpen((v) => !v)} className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-ink" aria-label="Menu">
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -207,7 +209,7 @@ function Hero() {
   const rotY = useTransform(sx, [-1, 1], [-8, 8]);
 
   return (
-    <section id="home" ref={wrap} className="relative overflow-hidden pt-32 pb-24 bg-mesh-hero"
+    <section id="home" ref={wrap} className="relative overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-24 bg-mesh-hero"
       onMouseMove={(e) => {
         const r = wrap.current?.getBoundingClientRect();
         if (!r) return;
@@ -220,7 +222,7 @@ function Hero() {
       <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-primary/25 blur-3xl animate-blob" />
       <div className="pointer-events-none absolute top-40 -right-24 h-[28rem] w-[28rem] rounded-full bg-primary-deep/25 blur-3xl animate-blob" style={{ animationDelay: "-4s" }} />
 
-      <div className="container-1280 relative grid lg:grid-cols-12 gap-12 items-center">
+      <div className="container-1280 relative grid lg:grid-cols-12 gap-10 sm:gap-12 items-center">
         <div className="lg:col-span-6">
           <FadeUp>
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 backdrop-blur px-3 py-1.5 text-xs font-medium text-ink/70">
@@ -228,14 +230,14 @@ function Hero() {
             </span>
           </FadeUp>
           <FadeUp delay={0.05}>
-            <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] leading-[1.02] text-ink">
+            <h1 className="mt-6 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] leading-[1.05] text-ink">
               Build Websites That{" "}
               <span className="text-gradient-brand">Grow Your Business</span>{" "}
               Faster.
             </h1>
           </FadeUp>
           <FadeUp delay={0.15}>
-            <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-5 sm:mt-6 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
               We create modern, responsive, SEO-friendly websites that help businesses increase credibility and sales — from landing pages to full custom systems.
             </p>
           </FadeUp>
@@ -309,7 +311,7 @@ function Hero() {
                 </div>
               </div>
               {/* base */}
-              <div className="mx-auto h-3 w-[110%] -mt-1 rounded-b-2xl bg-gradient-to-b from-[#0F172A] to-[#1e293b]" />
+              <div className="mx-auto h-3 w-full -mt-1 rounded-b-2xl bg-gradient-to-b from-[#0F172A] to-[#1e293b]" />
               <div className="mx-auto h-1 w-24 rounded-b-full bg-black/20" />
             </div>
 
@@ -399,16 +401,16 @@ function Statistics() {
     { v: 24, s: "/7", l: "Support" },
   ];
   return (
-    <section className="py-24">
+    <section className="py-16 sm:py-24">
       <div className="container-1280">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((s, i) => (
             <FadeUp key={i} delay={i * 0.08}>
-              <div className="rounded-3xl border border-border bg-white p-8 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)] transition-shadow">
-                <div className="text-5xl font-extrabold tracking-tight text-gradient-brand">
+              <div className="rounded-3xl border border-border bg-white p-5 sm:p-8 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)] transition-shadow">
+                <div className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gradient-brand">
                   <Counter to={s.v} suffix={s.s} />
                 </div>
-                <div className="mt-2 text-sm text-muted-foreground">{s.l}</div>
+                <div className="mt-2 text-xs sm:text-sm text-muted-foreground">{s.l}</div>
               </div>
             </FadeUp>
           ))}
@@ -433,12 +435,12 @@ const SERVICES = [
 
 function Services() {
   return (
-    <section id="services" className="py-24 bg-surface">
+    <section id="services" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Services</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Everything you need to ship online.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Everything you need to ship online.</h2>
             <p className="mt-4 text-lg text-muted-foreground">From a single landing page to a full enterprise platform — one team, end-to-end.</p>
           </div>
         </FadeUp>
@@ -477,12 +479,12 @@ const WHY = [
 
 function WhyChoose() {
   return (
-    <section id="about" className="py-24">
+    <section id="about" className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Why CodeStory</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">The details that make the difference.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">The details that make the difference.</h2>
           </div>
         </FadeUp>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -522,12 +524,12 @@ const PROCESS = [
 
 function Process() {
   return (
-    <section className="py-24 bg-surface">
+    <section className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Our Process</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">A clear path from idea to launch.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">A clear path from idea to launch.</h2>
           </div>
         </FadeUp>
         <div className="mt-16 relative">
@@ -575,13 +577,13 @@ function Portfolio() {
   const [cat, setCat] = useState<Cat>("All");
   const list = PROJECTS.filter(p => cat === "All" || p.cat === cat);
   return (
-    <section id="portfolio" className="py-24">
+    <section id="portfolio" className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div className="max-w-2xl">
               <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Portfolio</span>
-              <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Selected work.</h2>
+              <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Selected work.</h2>
             </div>
             <div className="flex flex-wrap gap-2">
               {CATS.map(c => (
@@ -664,12 +666,12 @@ const PLANS = [
 
 function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-surface">
+    <section id="pricing" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl mx-auto text-center">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Pricing</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Simple, transparent plans.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Simple, transparent plans.</h2>
             <p className="mt-4 text-lg text-muted-foreground">Pick a plan that fits today. Scale up whenever you're ready.</p>
           </div>
         </FadeUp>
@@ -688,8 +690,8 @@ function Pricing() {
                 )}
                 <div className={`text-sm font-semibold ${p.highlight ? "text-primary/90" : "text-primary"}`}>{p.tag}</div>
                 <h3 className="mt-2 text-2xl font-bold">{p.name}</h3>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-5xl font-extrabold tracking-tight">{p.price}</span>
+                <div className="mt-4 flex items-baseline gap-2 flex-wrap">
+                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight">{p.price}</span>
                   {p.price.startsWith("$") && <span className={p.highlight ? "text-white/60" : "text-muted-foreground"}>/ project</span>}
                 </div>
                 <ul className={`mt-6 space-y-3 text-sm ${p.highlight ? "text-white/85" : "text-ink/80"}`}>
@@ -732,12 +734,12 @@ function Testimonials() {
     return () => clearInterval(t);
   }, []);
   return (
-    <section className="py-24">
+    <section className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Testimonials</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Loved by teams that ship.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Loved by teams that ship.</h2>
           </div>
         </FadeUp>
         <div className="mt-14 relative">
@@ -799,12 +801,12 @@ const FAQS = [
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="py-24 bg-surface">
+    <section id="faq" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280 max-w-3xl">
         <FadeUp>
           <div className="text-center">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">FAQ</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Answers, first.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Answers, first.</h2>
           </div>
         </FadeUp>
         <div className="mt-12 space-y-3">
@@ -840,9 +842,9 @@ function FAQ() {
 
 function FinalCTA() {
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" className="py-16 sm:py-24">
       <div className="container-1280">
-        <div className="relative overflow-hidden rounded-[2rem] bg-ink p-10 sm:p-16 text-white">
+        <div className="relative overflow-hidden rounded-[2rem] bg-ink p-6 sm:p-10 md:p-16 text-white">
           <div className="absolute -top-20 -left-20 h-80 w-80 rounded-full bg-primary/40 blur-3xl animate-blob" />
           <div className="absolute -bottom-24 -right-16 h-96 w-96 rounded-full bg-primary-deep/40 blur-3xl animate-blob" style={{ animationDelay: "-5s" }} />
           <div className="absolute inset-0 bg-grid opacity-[0.08]" />
@@ -853,13 +855,13 @@ function FinalCTA() {
               </span>
             </FadeUp>
             <FadeUp delay={0.1}>
-              <h2 className="mt-6 text-4xl sm:text-6xl font-extrabold tracking-[-0.02em] leading-tight">
+              <h2 className="mt-6 text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-[-0.02em] leading-tight">
                 Ready to build your{" "}
                 <span className="bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">website?</span>
               </h2>
             </FadeUp>
             <FadeUp delay={0.15}>
-              <p className="mt-5 text-lg text-white/70 max-w-xl">Let's discuss your project today. Free 30-minute consultation, no strings attached.</p>
+              <p className="mt-5 text-base sm:text-lg text-white/70 max-w-xl">Let's discuss your project today. Free 30-minute consultation, no strings attached.</p>
             </FadeUp>
             <FadeUp delay={0.25}>
               <div className="mt-8 flex flex-wrap gap-3">
