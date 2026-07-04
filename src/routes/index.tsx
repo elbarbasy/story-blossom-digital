@@ -435,12 +435,12 @@ const SERVICES = [
 
 function Services() {
   return (
-    <section id="services" className="py-24 bg-surface">
+    <section id="services" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Services</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Everything you need to ship online.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Everything you need to ship online.</h2>
             <p className="mt-4 text-lg text-muted-foreground">From a single landing page to a full enterprise platform — one team, end-to-end.</p>
           </div>
         </FadeUp>
@@ -479,12 +479,12 @@ const WHY = [
 
 function WhyChoose() {
   return (
-    <section id="about" className="py-24">
+    <section id="about" className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Why CodeStory</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">The details that make the difference.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">The details that make the difference.</h2>
           </div>
         </FadeUp>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -524,12 +524,12 @@ const PROCESS = [
 
 function Process() {
   return (
-    <section className="py-24 bg-surface">
+    <section className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Our Process</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">A clear path from idea to launch.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">A clear path from idea to launch.</h2>
           </div>
         </FadeUp>
         <div className="mt-16 relative">
@@ -577,13 +577,13 @@ function Portfolio() {
   const [cat, setCat] = useState<Cat>("All");
   const list = PROJECTS.filter(p => cat === "All" || p.cat === cat);
   return (
-    <section id="portfolio" className="py-24">
+    <section id="portfolio" className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div className="max-w-2xl">
               <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Portfolio</span>
-              <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Selected work.</h2>
+              <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Selected work.</h2>
             </div>
             <div className="flex flex-wrap gap-2">
               {CATS.map(c => (
@@ -666,12 +666,12 @@ const PLANS = [
 
 function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-surface">
+    <section id="pricing" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl mx-auto text-center">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Pricing</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Simple, transparent plans.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Simple, transparent plans.</h2>
             <p className="mt-4 text-lg text-muted-foreground">Pick a plan that fits today. Scale up whenever you're ready.</p>
           </div>
         </FadeUp>
@@ -734,12 +734,12 @@ function Testimonials() {
     return () => clearInterval(t);
   }, []);
   return (
-    <section className="py-24">
+    <section className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Testimonials</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Loved by teams that ship.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Loved by teams that ship.</h2>
           </div>
         </FadeUp>
         <div className="mt-14 relative">
@@ -801,12 +801,12 @@ const FAQS = [
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="py-24 bg-surface">
+    <section id="faq" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280 max-w-3xl">
         <FadeUp>
           <div className="text-center">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">FAQ</span>
-            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-ink">Answers, first.</h2>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Answers, first.</h2>
           </div>
         </FadeUp>
         <div className="mt-12 space-y-3">
@@ -842,7 +842,7 @@ function FAQ() {
 
 function FinalCTA() {
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" className="py-16 sm:py-24">
       <div className="container-1280">
         <div className="relative overflow-hidden rounded-[2rem] bg-ink p-10 sm:p-16 text-white">
           <div className="absolute -top-20 -left-20 h-80 w-80 rounded-full bg-primary/40 blur-3xl animate-blob" />
