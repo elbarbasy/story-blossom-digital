@@ -311,7 +311,7 @@ function Hero() {
                 </div>
               </div>
               {/* base */}
-              <div className="mx-auto h-3 w-[110%] -mt-1 rounded-b-2xl bg-gradient-to-b from-[#0F172A] to-[#1e293b]" />
+              <div className="mx-auto h-3 w-full -mt-1 rounded-b-2xl bg-gradient-to-b from-[#0F172A] to-[#1e293b]" />
               <div className="mx-auto h-1 w-24 rounded-b-full bg-black/20" />
             </div>
 
