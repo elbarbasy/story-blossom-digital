@@ -222,7 +222,7 @@ function Hero() {
       <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-primary/25 blur-3xl animate-blob" />
       <div className="pointer-events-none absolute top-40 -right-24 h-[28rem] w-[28rem] rounded-full bg-primary-deep/25 blur-3xl animate-blob" style={{ animationDelay: "-4s" }} />
 
-      <div className="container-1280 relative grid lg:grid-cols-12 gap-12 items-center">
+      <div className="container-1280 relative grid lg:grid-cols-12 gap-10 sm:gap-12 items-center">
         <div className="lg:col-span-6">
           <FadeUp>
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 backdrop-blur px-3 py-1.5 text-xs font-medium text-ink/70">
