@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useMotionValue, useSpring, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowUpRight, Check, Star, Menu, X, Zap, Palette, Search, Smartphone, ShieldCheck, LifeBuoy,
-  Layout, Rocket, ShoppingCart, LayoutDashboard, PenTool, Wrench, Users2, Database,
+  Rocket, ShoppingCart, LayoutDashboard, PenTool, Wrench, Users2, Database,
   MessageSquare, PhoneCall, Instagram, Linkedin, Github, Music2, ChevronDown, Sparkles,
   Globe, Code2,
 } from "lucide-react";
 import logoAsset from "@/assets/codestory-logo.asset.json";
+import { useLang } from "@/i18n/LanguageContext";
+import { LANGS, LANG_LABELS, type Lang } from "@/i18n/translations";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -109,19 +111,32 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   return <span ref={ref}>{n}{suffix}</span>;
 }
 
+/* ---------- Language toggle ---------- */
+
+function LangToggle({ compact = false }: { compact?: boolean }) {
+  const { lang, setLang } = useLang();
+  return (
+    <div className={`inline-flex items-center gap-0.5 rounded-full border border-border bg-white/70 backdrop-blur p-0.5 ${compact ? "shadow-sm" : ""}`}>
+      {LANGS.map((l: Lang) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          aria-label={l === "en" ? "English" : "Bahasa Indonesia"}
+          className={`relative rounded-full px-2.5 py-1 text-xs font-bold transition-colors ${
+            lang === l ? "bg-primary text-primary-foreground" : "text-ink/60 hover:text-ink"
+          }`}
+        >
+          {LANG_LABELS[l]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 /* ---------- Navbar ---------- */
 
-const NAV = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "About", href: "#about" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
-];
-
 function Navbar() {
+  const { t } = useLang();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -130,6 +145,16 @@ function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const NAV = [
+    { label: t.nav.home, href: "#home" },
+    { label: t.nav.services, href: "#services" },
+    { label: t.nav.portfolio, href: "#portfolio" },
+    { label: t.nav.pricing, href: "#pricing" },
+    { label: t.nav.about, href: "#about" },
+    { label: t.nav.faq, href: "#faq" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "py-2" : "py-4"}`}>
@@ -151,9 +176,10 @@ function Navbar() {
             ))}
           </ul>
           <div className="flex items-center gap-2 shrink-0">
+            <LangToggle />
             <div className="hidden sm:block">
               <MagneticButton href="#contact" className="!py-2.5 !px-5 whitespace-nowrap">
-                Free Consultation <ArrowRight className="h-4 w-4" />
+                {t.nav.cta} <ArrowRight className="h-4 w-4" />
               </MagneticButton>
             </div>
             <button onClick={() => setOpen((v) => !v)} className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-ink" aria-label="Menu">
@@ -173,7 +199,7 @@ function Navbar() {
                 </a>
               ))}
               <a href="#contact" onClick={() => setOpen(false)} className="mt-1 block text-center rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground">
-                Free Consultation
+                {t.nav.cta}
               </a>
             </motion.div>
           )}
@@ -200,6 +226,7 @@ function BrowserMock({ children, url = "codestory.dev" }: { children: React.Reac
 }
 
 function Hero() {
+  const { t } = useLang();
   const wrap = useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -226,28 +253,28 @@ function Hero() {
         <div className="lg:col-span-6">
           <FadeUp>
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 backdrop-blur px-3 py-1.5 text-xs font-medium text-ink/70">
-              <Sparkles className="h-3.5 w-3.5 text-primary" /> Digital agency · Est. 2019
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> {t.hero.badge}
             </span>
           </FadeUp>
           <FadeUp delay={0.05}>
             <h1 className="mt-6 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] leading-[1.05] text-ink">
-              Build Websites That{" "}
-              <span className="text-gradient-brand">Grow Your Business</span>{" "}
-              Faster.
+              {t.hero.titleLead}{" "}
+              <span className="text-gradient-brand">{t.hero.titleHighlight}</span>{" "}
+              {t.hero.titleTrail}
             </h1>
           </FadeUp>
           <FadeUp delay={0.15}>
             <p className="mt-5 sm:mt-6 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-              We create modern, responsive, SEO-friendly websites that help businesses increase credibility and sales — from landing pages to full custom systems.
+              {t.hero.subtitle}
             </p>
           </FadeUp>
           <FadeUp delay={0.25}>
             <div className="mt-8 flex flex-wrap gap-3">
               <MagneticButton href="#contact">
-                Start Your Project <ArrowRight className="h-4 w-4" />
+                {t.hero.ctaPrimary} <ArrowRight className="h-4 w-4" />
               </MagneticButton>
               <MagneticButton href="#portfolio" variant="outline">
-                View Portfolio <ArrowUpRight className="h-4 w-4" />
+                {t.hero.ctaSecondary} <ArrowUpRight className="h-4 w-4" />
               </MagneticButton>
             </div>
           </FadeUp>
@@ -258,7 +285,7 @@ function Hero() {
                   <div key={i} className={`h-8 w-8 rounded-full bg-gradient-to-br ${g} ring-2 ring-white`} />
                 ))}
               </div>
-              <div><span className="font-semibold text-ink">150+ clients</span> shipping faster with CodeStory</div>
+              <div><span className="font-semibold text-ink">{t.hero.clients}</span> {t.hero.clientsSub}</div>
             </div>
           </FadeUp>
         </div>
@@ -324,7 +351,7 @@ function Hero() {
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-xl bg-primary/10 grid place-items-center text-primary"><Zap className="h-4 w-4" /></div>
                   <div>
-                    <div className="text-xs text-muted-foreground">Lighthouse</div>
+                    <div className="text-xs text-muted-foreground">{t.hero.lighthouse}</div>
                     <div className="text-sm font-bold text-ink">98 / 100</div>
                   </div>
                 </div>
@@ -338,14 +365,14 @@ function Hero() {
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-xl bg-primary/10 grid place-items-center text-primary"><Search className="h-4 w-4" /></div>
                   <div>
-                    <div className="text-xs text-muted-foreground">SEO score</div>
+                    <div className="text-xs text-muted-foreground">{t.hero.seo}</div>
                     <div className="text-sm font-bold text-ink">A+ Ranked</div>
                   </div>
                 </div>
               </div>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.8 }}
+              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ delay: 0.9, duration: 0.8 }}
               className="absolute -bottom-6 left-1/2 -translate-x-1/2 hidden md:block"
             >
               <div className="glass rounded-2xl px-4 py-3 shadow-[var(--shadow-lift)]">
@@ -355,7 +382,7 @@ function Hero() {
                     <div className="h-6 w-6 rounded-full bg-gradient-to-br from-sky-400 to-primary ring-2 ring-white" />
                     <div className="h-6 w-6 rounded-full bg-gradient-to-br from-indigo-500 to-primary-deep ring-2 ring-white" />
                   </div>
-                  <div className="text-xs"><span className="font-semibold text-ink">+42%</span> conversions in 30 days</div>
+                  <div className="text-xs"><span className="font-semibold text-ink">{t.hero.conversions.split(" ")[0]}</span> {t.hero.conversions.split(" ").slice(1).join(" ")}</div>
                 </div>
               </div>
             </motion.div>
@@ -371,11 +398,12 @@ function Hero() {
 const LOGOS = ["Northwind", "Lumen", "Vantage", "Orbita", "Meridian", "Helix", "Pixelform", "Fluxwave", "Kairo", "Novabank"];
 
 function Marquee() {
+  const { t } = useLang();
   return (
     <section className="py-16 border-y border-border bg-white">
       <div className="container-1280">
         <p className="text-center text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold">
-          Trusted by businesses worldwide
+          {t.marquee.label}
         </p>
         <div className="mt-8 relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex gap-16 animate-marquee w-max">
@@ -394,11 +422,12 @@ function Marquee() {
 /* ---------- Statistics ---------- */
 
 function Statistics() {
+  const { t } = useLang();
   const stats = [
-    { v: 250, s: "+", l: "Projects Completed" },
-    { v: 150, s: "+", l: "Happy Clients" },
-    { v: 98, s: "%", l: "Client Satisfaction" },
-    { v: 24, s: "/7", l: "Support" },
+    { v: 250, s: "+", l: t.stats.projects },
+    { v: 150, s: "+", l: t.stats.clients },
+    { v: 98, s: "%", l: t.stats.satisfaction },
+    { v: 24, s: "/7", l: t.stats.support },
   ];
   return (
     <section className="py-16 sm:py-24">
@@ -422,44 +451,39 @@ function Statistics() {
 
 /* ---------- Services ---------- */
 
-const SERVICES = [
-  { icon: Globe, title: "Website Company Profile", desc: "Credible corporate presence that tells your story with clarity." },
-  { icon: Rocket, title: "Landing Page", desc: "High-converting single pages engineered for campaigns and ads." },
-  { icon: ShoppingCart, title: "E-Commerce", desc: "Fast, secure online stores with seamless checkout flows." },
-  { icon: LayoutDashboard, title: "Web Application", desc: "Custom SaaS and internal tools built to scale with your team." },
-  { icon: PenTool, title: "UI / UX Design", desc: "Beautiful, research-backed interfaces users love to use." },
-  { icon: Wrench, title: "Website Maintenance", desc: "Updates, monitoring, and performance care — every month." },
-  { icon: Users2, title: "CRM System", desc: "Own your pipeline with a tailored customer platform." },
-  { icon: Database, title: "ERP System", desc: "Unify operations, finance, and logistics in one system." },
-];
+const SERVICE_ICONS = [Globe, Rocket, ShoppingCart, LayoutDashboard, PenTool, Wrench, Users2, Database];
 
 function Services() {
+  const { t } = useLang();
   return (
     <section id="services" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Services</span>
-            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Everything you need to ship online.</h2>
-            <p className="mt-4 text-lg text-muted-foreground">From a single landing page to a full enterprise platform — one team, end-to-end.</p>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{t.services.label}</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{t.services.title}</h2>
+            <p className="mt-4 text-lg text-muted-foreground">{t.services.subtitle}</p>
           </div>
         </FadeUp>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {SERVICES.map((s, i) => (
-            <FadeUp key={s.title} delay={i * 0.04}>
-              <motion.div whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 18 }}
-                className="group h-full rounded-3xl border border-border bg-white p-6 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)] transition-shadow">
-                <div className="relative h-11 w-11 rounded-2xl bg-primary/10 grid place-items-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <s.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-lg font-bold text-ink">{s.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  Learn more <ArrowRight className="h-4 w-4" />
-                </div>
-              </motion.div>
-            </FadeUp>
-          ))}
+          {t.services.items.map((s, i) => {
+            const Icon = SERVICE_ICONS[i] ?? Globe;
+            return (
+              <FadeUp key={s.title} delay={i * 0.04}>
+                <motion.div whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 18 }}
+                  className="group h-full rounded-3xl border border-border bg-white p-6 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)] transition-shadow">
+                  <div className="relative h-11 w-11 rounded-2xl bg-primary/10 grid place-items-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold text-ink">{s.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    {t.services.learnMore} <ArrowRight className="h-4 w-4" />
+                  </div>
+                </motion.div>
+              </FadeUp>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -468,42 +492,39 @@ function Services() {
 
 /* ---------- Why Choose Us ---------- */
 
-const WHY = [
-  { icon: Zap, title: "Fast Development", desc: "Agile sprints and modern tooling ship weeks — not months." },
-  { icon: Palette, title: "Modern Design", desc: "Design language calibrated to your brand and audience." },
-  { icon: Search, title: "SEO Ready", desc: "Technical SEO baked in from URL structure to Core Web Vitals." },
-  { icon: Smartphone, title: "Mobile Responsive", desc: "Pixel-perfect on every device from 320px to 4K." },
-  { icon: ShieldCheck, title: "Secure", desc: "SSL, hardening, and best-practice auth from day one." },
-  { icon: LifeBuoy, title: "Lifetime Support", desc: "We stay with you long after launch — always on call." },
-];
+const WHY_ICONS = [Zap, Palette, Search, Smartphone, ShieldCheck, LifeBuoy];
 
 function WhyChoose() {
+  const { t } = useLang();
   return (
     <section id="about" className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Why CodeStory</span>
-            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">The details that make the difference.</h2>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{t.why.label}</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{t.why.title}</h2>
           </div>
         </FadeUp>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {WHY.map((w, i) => (
-            <FadeUp key={w.title} delay={i * 0.05}>
-              <div className="group relative h-full rounded-3xl border border-border bg-white p-7 overflow-hidden">
-                <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative flex items-start gap-4">
-                  <div className="h-11 w-11 rounded-2xl bg-primary/10 grid place-items-center text-primary shrink-0">
-                    <w.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-ink">{w.title}</h3>
-                    <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
+          {t.why.items.map((w, i) => {
+            const Icon = WHY_ICONS[i] ?? Zap;
+            return (
+              <FadeUp key={w.title} delay={i * 0.05}>
+                <div className="group relative h-full rounded-3xl border border-border bg-white p-7 overflow-hidden">
+                  <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative flex items-start gap-4">
+                    <div className="h-11 w-11 rounded-2xl bg-primary/10 grid place-items-center text-primary shrink-0">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-ink">{w.title}</h3>
+                      <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </FadeUp>
-          ))}
+              </FadeUp>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -512,34 +533,25 @@ function WhyChoose() {
 
 /* ---------- Process ---------- */
 
-const PROCESS = [
-  { t: "Consultation", d: "We listen, understand your goals, and scope the project." },
-  { t: "Wireframe", d: "Low-fidelity blueprints validate structure and flow." },
-  { t: "UI Design", d: "High-fidelity screens crafted around your brand." },
-  { t: "Development", d: "Clean, scalable code built with modern stacks." },
-  { t: "Testing", d: "Cross-device, performance, and accessibility QA." },
-  { t: "Deployment", d: "Zero-downtime launch on secure cloud infrastructure." },
-  { t: "Maintenance", d: "Ongoing improvements, updates, and 24/7 support." },
-];
-
 function Process() {
+  const { t } = useLang();
   return (
     <section className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Our Process</span>
-            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">A clear path from idea to launch.</h2>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{t.process.label}</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{t.process.title}</h2>
           </div>
         </FadeUp>
         <div className="mt-16 relative">
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2" />
           <ul className="space-y-10">
-            {PROCESS.map((p, i) => (
+            {t.process.items.map((p, i) => (
               <FadeUp key={p.t} delay={i * 0.04}>
                 <li className={`relative md:grid md:grid-cols-2 md:gap-10 items-center ${i % 2 ? "md:[&>*:first-child]:col-start-2" : ""}`}>
                   <div className={`pl-12 md:pl-0 ${i % 2 ? "md:text-left md:pl-10" : "md:text-right md:pr-10"}`}>
-                    <div className="text-xs font-semibold text-primary">Step {String(i + 1).padStart(2, "0")}</div>
+                    <div className="text-xs font-semibold text-primary">{t.process.step} {String(i + 1).padStart(2, "0")}</div>
                     <h3 className="mt-1 text-2xl font-bold text-ink">{p.t}</h3>
                     <p className="mt-2 text-muted-foreground">{p.d}</p>
                   </div>
@@ -561,34 +573,33 @@ function Process() {
 
 /* ---------- Portfolio ---------- */
 
-const CATS = ["All", "Company Profile", "Landing Page", "Web App", "E-Commerce"] as const;
-type Cat = typeof CATS[number];
-
-const PROJECTS: { title: string; cat: Exclude<Cat, "All">; hue: string }[] = [
-  { title: "Northwind Corporate", cat: "Company Profile", hue: "from-primary to-primary-deep" },
-  { title: "Lumen Launch", cat: "Landing Page", hue: "from-sky-400 to-primary" },
-  { title: "Orbita Store", cat: "E-Commerce", hue: "from-indigo-500 to-primary-deep" },
-  { title: "Vantage Dashboard", cat: "Web App", hue: "from-primary to-indigo-600" },
-  { title: "Meridian Studio", cat: "Company Profile", hue: "from-blue-500 to-primary-deep" },
-  { title: "Helix Checkout", cat: "E-Commerce", hue: "from-sky-500 to-indigo-600" },
+const PROJECTS: { title: string; catIdx: number; hue: string }[] = [
+  { title: "Northwind Corporate", catIdx: 1, hue: "from-primary to-primary-deep" },
+  { title: "Lumen Launch", catIdx: 2, hue: "from-sky-400 to-primary" },
+  { title: "Orbita Store", catIdx: 4, hue: "from-indigo-500 to-primary-deep" },
+  { title: "Vantage Dashboard", catIdx: 3, hue: "from-primary to-indigo-600" },
+  { title: "Meridian Studio", catIdx: 1, hue: "from-blue-500 to-primary-deep" },
+  { title: "Helix Checkout", catIdx: 4, hue: "from-sky-500 to-indigo-600" },
 ];
 
 function Portfolio() {
-  const [cat, setCat] = useState<Cat>("All");
-  const list = PROJECTS.filter(p => cat === "All" || p.cat === cat);
+  const { t } = useLang();
+  const cats = t.portfolio.cats;
+  const [cat, setCat] = useState(0); // 0 = All
+  const list = PROJECTS.filter(p => cat === 0 || p.catIdx === cat);
   return (
     <section id="portfolio" className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div className="max-w-2xl">
-              <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Portfolio</span>
-              <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Selected work.</h2>
+              <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{t.portfolio.label}</span>
+              <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{t.portfolio.title}</h2>
             </div>
             <div className="flex flex-wrap gap-2">
-              {CATS.map(c => (
-                <button key={c} onClick={() => setCat(c)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium border transition-all ${cat === c ? "bg-ink text-white border-ink" : "bg-white text-ink/70 border-border hover:text-ink"}`}>
+              {cats.map((c, i) => (
+                <button key={c} onClick={() => setCat(i)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium border transition-all ${cat === i ? "bg-ink text-white border-ink" : "bg-white text-ink/70 border-border hover:text-ink"}`}>
                   {c}
                 </button>
               ))}
@@ -631,7 +642,7 @@ function Portfolio() {
                 </div>
                 <div className="mt-5 flex items-center justify-between">
                   <div>
-                    <div className="text-xs text-muted-foreground">{p.cat}</div>
+                    <div className="text-xs text-muted-foreground">{cats[p.catIdx]}</div>
                     <h3 className="text-lg font-bold text-ink">{p.title}</h3>
                   </div>
                   <div className="h-10 w-10 rounded-full bg-secondary grid place-items-center text-ink group-hover:bg-primary group-hover:text-white transition-colors">
@@ -649,70 +660,92 @@ function Portfolio() {
 
 /* ---------- Pricing ---------- */
 
-const PLANS = [
-  {
-    name: "Starter", price: "$1,499", tag: "Perfect for small brands",
-    features: ["1 landing page", "Responsive design", "Basic SEO setup", "Contact form", "2 revision rounds", "30-day support"],
-  },
-  {
-    name: "Business", price: "$4,999", tag: "Most popular", highlight: true,
-    features: ["Up to 8 pages", "Custom UI/UX design", "Advanced SEO + analytics", "CMS integration", "5 revision rounds", "3-month support", "Speed optimization"],
-  },
-  {
-    name: "Enterprise", price: "Custom", tag: "For scaling teams",
-    features: ["Unlimited pages", "Custom web application", "CRM / ERP integration", "Dedicated PM & designer", "Unlimited revisions", "12-month SLA", "Security hardening"],
-  },
-];
-
 function Pricing() {
+  const { t } = useLang();
+  const p = t.pricing;
   return (
     <section id="pricing" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl mx-auto text-center">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Pricing</span>
-            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Simple, transparent plans.</h2>
-            <p className="mt-4 text-lg text-muted-foreground">Pick a plan that fits today. Scale up whenever you're ready.</p>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{p.label}</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{p.title}</h2>
+            <p className="mt-4 text-lg text-muted-foreground">{p.subtitle}</p>
           </div>
         </FadeUp>
         <div className="mt-16 grid md:grid-cols-3 gap-6 items-stretch">
-          {PLANS.map((p, i) => (
-            <FadeUp key={p.name} delay={i * 0.08}>
+          {p.plans.map((plan, i) => (
+            <FadeUp key={plan.name} delay={i * 0.08}>
               <motion.div whileHover={{ y: -6 }}
-                className={`relative h-full rounded-3xl p-8 border transition-shadow ${p.highlight
+                className={`relative h-full rounded-3xl p-8 border transition-shadow ${plan.highlight
                   ? "bg-ink text-white border-ink shadow-[var(--shadow-glow)]"
                   : "bg-white border-border shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)]"}`}
               >
-                {p.highlight && (
+                {"highlight" in plan && plan.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary text-primary-foreground text-xs font-semibold px-3 py-1">
-                    Most popular
+                    {p.popular}
                   </div>
                 )}
-                <div className={`text-sm font-semibold ${p.highlight ? "text-primary/90" : "text-primary"}`}>{p.tag}</div>
-                <h3 className="mt-2 text-2xl font-bold">{p.name}</h3>
+                <div className={`text-sm font-semibold ${plan.highlight ? "text-primary/90" : "text-primary"}`}>{plan.tag}</div>
+                <h3 className="mt-2 text-2xl font-bold">{plan.name}</h3>
                 <div className="mt-4 flex items-baseline gap-2 flex-wrap">
-                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight">{p.price}</span>
-                  {p.price.startsWith("$") && <span className={p.highlight ? "text-white/60" : "text-muted-foreground"}>/ project</span>}
+                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight">{plan.price}</span>
+                  {plan.priceUnit && <span className={`text-lg font-bold ${plan.highlight ? "text-white/70" : "text-muted-foreground"}`}>{plan.priceUnit}</span>}
+                  {plan.price.startsWith("Rp") && <span className={plan.highlight ? "text-white/60" : "text-muted-foreground"}>{p.perProject}</span>}
                 </div>
-                <ul className={`mt-6 space-y-3 text-sm ${p.highlight ? "text-white/85" : "text-ink/80"}`}>
-                  {p.features.map((f) => (
+                <ul className={`mt-6 space-y-3 text-sm ${plan.highlight ? "text-white/85" : "text-ink/80"}`}>
+                  {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2">
-                      <Check className={`h-5 w-5 shrink-0 ${p.highlight ? "text-primary" : "text-primary"}`} />
+                      <Check className="h-5 w-5 shrink-0 text-primary" />
                       <span>{f}</span>
                     </li>
                   ))}
                 </ul>
                 <a href="#contact"
                   className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-colors ${
-                    p.highlight ? "bg-primary text-primary-foreground hover:bg-primary-deep"
+                    plan.highlight ? "bg-primary text-primary-foreground hover:bg-primary-deep"
                                 : "bg-ink text-white hover:bg-ink/90"
                   }`}>
-                  Get started <ArrowRight className="h-4 w-4" />
+                  {p.getStarted} <ArrowRight className="h-4 w-4" />
                 </a>
               </motion.div>
             </FadeUp>
           ))}
         </div>
+
+        {/* Service price list table */}
+        <FadeUp delay={0.15}>
+          <div className="mt-16 max-w-4xl mx-auto">
+            <div className="text-center">
+              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">{p.serviceList.title}</h3>
+              <p className="mt-3 text-muted-foreground">{p.serviceList.subtitle}</p>
+            </div>
+            <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-white shadow-[var(--shadow-soft)]">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-secondary/70 text-xs uppercase tracking-wider text-muted-foreground">
+                    <tr>
+                      <th className="px-5 py-4 font-semibold">{p.serviceList.headers.service}</th>
+                      <th className="hidden sm:table-cell px-5 py-4 font-semibold">{p.serviceList.headers.desc}</th>
+                      <th className="px-5 py-4 font-semibold text-right">{p.serviceList.headers.price}</th>
+                      <th className="hidden sm:table-cell px-5 py-4 font-semibold text-right whitespace-nowrap">{p.serviceList.headers.unit}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {p.serviceList.items.map((item, i) => (
+                      <tr key={item.name} className={`border-t border-border transition-colors hover:bg-secondary/40 ${i % 2 ? "bg-secondary/20" : ""}`}>
+                        <td className="px-5 py-4 font-semibold text-ink">{item.name}</td>
+                        <td className="hidden sm:table-cell px-5 py-4 text-muted-foreground">{item.desc}</td>
+                        <td className="px-5 py-4 text-right font-bold text-primary whitespace-nowrap">{item.price}</td>
+                        <td className="hidden sm:table-cell px-5 py-4 text-right text-muted-foreground whitespace-nowrap">{item.unit}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </FadeUp>
       </div>
     </section>
   );
@@ -720,26 +753,21 @@ function Pricing() {
 
 /* ---------- Testimonials ---------- */
 
-const TESTIS = [
-  { name: "Amelia Chen", role: "CEO, Northwind", quote: "CodeStory rebuilt our platform in six weeks. Conversions jumped 42% and support tickets dropped." },
-  { name: "Rafael Ortega", role: "Founder, Lumen", quote: "The design work is on another level. Every detail feels intentional — and it converts." },
-  { name: "Priya Shah", role: "Product Lead, Orbita", quote: "Reliable, thoughtful, fast. They ship like an in-house team but with agency polish." },
-  { name: "David Nakamura", role: "COO, Vantage", quote: "From wireframe to launch in under two months. They just get it." },
-];
-
 function Testimonials() {
+  const { t } = useLang();
+  const testis = t.testimonials.items;
   const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setI(v => (v + 1) % TESTIS.length), 5000);
-    return () => clearInterval(t);
-  }, []);
+    const timer = setInterval(() => setI(v => (v + 1) % testis.length), 5000);
+    return () => clearInterval(timer);
+  }, [testis.length]);
   return (
     <section className="py-16 sm:py-24">
       <div className="container-1280">
         <FadeUp>
           <div className="max-w-2xl">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">Testimonials</span>
-            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Loved by teams that ship.</h2>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{t.testimonials.label}</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{t.testimonials.title}</h2>
           </div>
         </FadeUp>
         <div className="mt-14 relative">
@@ -753,20 +781,20 @@ function Testimonials() {
                 className="grid md:grid-cols-3 gap-5"
               >
                 {[0,1,2].map(off => {
-                  const t = TESTIS[(i + off) % TESTIS.length];
+                  const item = testis[(i + off) % testis.length];
                   return (
                     <div key={off} className={`rounded-3xl border border-border p-8 ${off === 0 ? "bg-ink text-white" : "bg-white"}`}>
-                      <div className={`flex gap-0.5 ${off === 0 ? "text-primary" : "text-primary"}`}>
+                      <div className="flex gap-0.5 text-primary">
                         {Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-current" />)}
                       </div>
-                      <p className={`mt-5 text-lg leading-relaxed ${off === 0 ? "text-white/90" : "text-ink/85"}`}>"{t.quote}"</p>
+                      <p className={`mt-5 text-lg leading-relaxed ${off === 0 ? "text-white/90" : "text-ink/85"}`}>"{item.quote}"</p>
                       <div className="mt-6 flex items-center gap-3">
                         <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-primary-deep grid place-items-center text-white font-bold">
-                          {t.name.split(" ").map(n=>n[0]).join("")}
+                          {item.name.split(" ").map(n=>n[0]).join("")}
                         </div>
                         <div>
-                          <div className={`font-semibold ${off === 0 ? "text-white" : "text-ink"}`}>{t.name}</div>
-                          <div className={`text-xs ${off === 0 ? "text-white/60" : "text-muted-foreground"}`}>{t.role}</div>
+                          <div className={`font-semibold ${off === 0 ? "text-white" : "text-ink"}`}>{item.name}</div>
+                          <div className={`text-xs ${off === 0 ? "text-white/60" : "text-muted-foreground"}`}>{item.role}</div>
                         </div>
                       </div>
                     </div>
@@ -776,7 +804,7 @@ function Testimonials() {
             </AnimatePresence>
           </div>
           <div className="mt-8 flex justify-center gap-2">
-            {TESTIS.map((_, k) => (
+            {testis.map((_, k) => (
               <button key={k} onClick={() => setI(k)} aria-label={`Slide ${k+1}`}
                 className={`h-1.5 rounded-full transition-all ${k === i ? "w-8 bg-primary" : "w-4 bg-border"}`} />
             ))}
@@ -789,28 +817,21 @@ function Testimonials() {
 
 /* ---------- FAQ ---------- */
 
-const FAQS = [
-  { q: "How long does a typical project take?", a: "Landing pages ship in 1–2 weeks. Company profiles run 3–4 weeks. E-commerce and web apps range from 6–12 weeks depending on scope." },
-  { q: "Do you provide ongoing maintenance?", a: "Yes. Every plan includes launch support, and we offer monthly maintenance plans covering updates, backups, monitoring, and improvements." },
-  { q: "Which technologies do you use?", a: "We build with modern, production-grade tools: Next.js, React, TypeScript, Tailwind CSS, and headless CMS platforms — always chosen to fit your goals." },
-  { q: "Do you help with SEO and performance?", a: "Absolutely. SEO best practices and Core Web Vitals are part of every build, and we can run dedicated SEO campaigns after launch." },
-  { q: "Can you work with our existing brand?", a: "Yes. We adapt to your brand or refresh it — many clients start with a light rebrand alongside the new website." },
-  { q: "How do we start?", a: "Book a free consultation. We'll scope your project, share a roadmap and quote, and if it's a fit, we can start within a week." },
-];
-
 function FAQ() {
+  const { t } = useLang();
+  const faqs = t.faq.items;
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section id="faq" className="py-16 sm:py-24 bg-surface">
       <div className="container-1280 max-w-3xl">
         <FadeUp>
           <div className="text-center">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">FAQ</span>
-            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Answers, first.</h2>
+            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{t.faq.label}</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{t.faq.title}</h2>
           </div>
         </FadeUp>
         <div className="mt-12 space-y-3">
-          {FAQS.map((f, i) => {
+          {faqs.map((f, i) => {
             const isOpen = open === i;
             return (
               <FadeUp key={f.q} delay={i * 0.03}>
@@ -841,6 +862,7 @@ function FAQ() {
 /* ---------- Final CTA ---------- */
 
 function FinalCTA() {
+  const { t } = useLang();
   return (
     <section id="contact" className="py-16 sm:py-24">
       <div className="container-1280">
@@ -851,25 +873,25 @@ function FinalCTA() {
           <div className="relative max-w-3xl">
             <FadeUp>
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 backdrop-blur px-3 py-1.5 text-xs font-medium text-white/80">
-                <Code2 className="h-3.5 w-3.5" /> Let's build something great
+                <Code2 className="h-3.5 w-3.5" /> {t.cta.badge}
               </span>
             </FadeUp>
             <FadeUp delay={0.1}>
               <h2 className="mt-6 text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-[-0.02em] leading-tight">
-                Ready to build your{" "}
-                <span className="bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">website?</span>
+                {t.cta.titleLead}{" "}
+                <span className="bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">{t.cta.titleHighlight}</span>
               </h2>
             </FadeUp>
             <FadeUp delay={0.15}>
-              <p className="mt-5 text-base sm:text-lg text-white/70 max-w-xl">Let's discuss your project today. Free 30-minute consultation, no strings attached.</p>
+              <p className="mt-5 text-base sm:text-lg text-white/70 max-w-xl">{t.cta.subtitle}</p>
             </FadeUp>
             <FadeUp delay={0.25}>
               <div className="mt-8 flex flex-wrap gap-3">
                 <MagneticButton href="#" >
-                  <PhoneCall className="h-4 w-4" /> Free Consultation
+                  <PhoneCall className="h-4 w-4" /> {t.cta.primary}
                 </MagneticButton>
                 <MagneticButton href="#" variant="outline" className="!bg-white/10 !border-white/20 !text-white hover:!bg-white/20">
-                  <MessageSquare className="h-4 w-4" /> WhatsApp
+                  <MessageSquare className="h-4 w-4" /> {t.cta.secondary}
                 </MagneticButton>
               </div>
             </FadeUp>
@@ -883,6 +905,7 @@ function FinalCTA() {
 /* ---------- Footer ---------- */
 
 function Footer() {
+  const { t } = useLang();
   return (
     <footer className="border-t border-border bg-white">
       <div className="container-1280 py-16 grid md:grid-cols-4 gap-10">
@@ -894,7 +917,7 @@ function Footer() {
             </span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-            Build Your Digital Success — websites, apps, and custom systems for ambitious teams.
+            {t.footer.tagline}
           </p>
           <div className="mt-6 flex gap-2">
             {[Instagram, Music2, Linkedin, Github].map((I, k) => (
@@ -905,16 +928,16 @@ function Footer() {
           </div>
         </div>
         <div>
-          <div className="text-sm font-semibold text-ink">Quick Links</div>
+          <div className="text-sm font-semibold text-ink">{t.footer.quickLinks}</div>
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li><a href="#services" className="hover:text-ink">Services</a></li>
-            <li><a href="#portfolio" className="hover:text-ink">Portfolio</a></li>
-            <li><a href="#pricing" className="hover:text-ink">Pricing</a></li>
-            <li><a href="#faq" className="hover:text-ink">FAQ</a></li>
+            <li><a href="#services" className="hover:text-ink">{t.nav.services}</a></li>
+            <li><a href="#portfolio" className="hover:text-ink">{t.nav.portfolio}</a></li>
+            <li><a href="#pricing" className="hover:text-ink">{t.nav.pricing}</a></li>
+            <li><a href="#faq" className="hover:text-ink">{t.nav.faq}</a></li>
           </ul>
         </div>
         <div>
-          <div className="text-sm font-semibold text-ink">Contact</div>
+          <div className="text-sm font-semibold text-ink">{t.footer.contact}</div>
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li>hello@codestory.dev</li>
             <li>+1 (415) 555-0123</li>
@@ -924,8 +947,8 @@ function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="container-1280 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <div>© {new Date().getFullYear()} CodeStory. All rights reserved.</div>
-          <div className="flex gap-5"><a href="#" className="hover:text-ink">Privacy</a><a href="#" className="hover:text-ink">Terms</a></div>
+          <div>© {new Date().getFullYear()} CodeStory. {t.footer.rights}</div>
+          <div className="flex gap-5"><a href="#" className="hover:text-ink">{t.footer.privacy}</a><a href="#" className="hover:text-ink">{t.footer.terms}</a></div>
         </div>
       </div>
     </footer>
