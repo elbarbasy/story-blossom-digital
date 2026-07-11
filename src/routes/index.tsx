@@ -150,7 +150,6 @@ function Navbar() {
     { label: t.nav.home, href: "#home" },
     { label: t.nav.services, href: "#services" },
     { label: t.nav.portfolio, href: "#portfolio" },
-    { label: t.nav.pricing, href: "#pricing" },
     { label: t.nav.about, href: "#about" },
     { label: t.nav.faq, href: "#faq" },
     { label: t.nav.contact, href: "#contact" },
@@ -658,99 +657,6 @@ function Portfolio() {
   );
 }
 
-/* ---------- Pricing ---------- */
-
-function Pricing() {
-  const { t } = useLang();
-  const p = t.pricing;
-  return (
-    <section id="pricing" className="py-16 sm:py-24 bg-surface">
-      <div className="container-1280">
-        <FadeUp>
-          <div className="max-w-2xl mx-auto text-center">
-            <span className="text-xs uppercase tracking-[0.2em] font-semibold text-primary">{p.label}</span>
-            <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">{p.title}</h2>
-            <p className="mt-4 text-lg text-muted-foreground">{p.subtitle}</p>
-          </div>
-        </FadeUp>
-        <div className="mt-16 grid md:grid-cols-3 gap-6 items-stretch">
-          {p.plans.map((plan, i) => (
-            <FadeUp key={plan.name} delay={i * 0.08}>
-              <motion.div whileHover={{ y: -6 }}
-                className={`relative h-full rounded-3xl p-8 border transition-shadow ${plan.highlight
-                  ? "bg-ink text-white border-ink shadow-[var(--shadow-glow)]"
-                  : "bg-white border-border shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-lift)]"}`}
-              >
-                {"highlight" in plan && plan.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary text-primary-foreground text-xs font-semibold px-3 py-1">
-                    {p.popular}
-                  </div>
-                )}
-                <div className={`text-sm font-semibold ${plan.highlight ? "text-primary/90" : "text-primary"}`}>{plan.tag}</div>
-                <h3 className="mt-2 text-2xl font-bold">{plan.name}</h3>
-                <div className="mt-4 flex items-baseline gap-2 flex-wrap">
-                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight">{plan.price}</span>
-                  {plan.priceUnit && <span className={`text-lg font-bold ${plan.highlight ? "text-white/70" : "text-muted-foreground"}`}>{plan.priceUnit}</span>}
-                  {plan.price.startsWith("Rp") && <span className={plan.highlight ? "text-white/60" : "text-muted-foreground"}>{p.perProject}</span>}
-                </div>
-                <ul className={`mt-6 space-y-3 text-sm ${plan.highlight ? "text-white/85" : "text-ink/80"}`}>
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <Check className="h-5 w-5 shrink-0 text-primary" />
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a href="#contact"
-                  className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-colors ${
-                    plan.highlight ? "bg-primary text-primary-foreground hover:bg-primary-deep"
-                                : "bg-ink text-white hover:bg-ink/90"
-                  }`}>
-                  {p.getStarted} <ArrowRight className="h-4 w-4" />
-                </a>
-              </motion.div>
-            </FadeUp>
-          ))}
-        </div>
-
-        {/* Service price list table */}
-        <FadeUp delay={0.15}>
-          <div className="mt-16 max-w-4xl mx-auto">
-            <div className="text-center">
-              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">{p.serviceList.title}</h3>
-              <p className="mt-3 text-muted-foreground">{p.serviceList.subtitle}</p>
-            </div>
-            <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-white shadow-[var(--shadow-soft)]">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-secondary/70 text-xs uppercase tracking-wider text-muted-foreground">
-                    <tr>
-                      <th className="px-5 py-4 font-semibold">{p.serviceList.headers.service}</th>
-                      <th className="hidden sm:table-cell px-5 py-4 font-semibold">{p.serviceList.headers.desc}</th>
-                      <th className="px-5 py-4 font-semibold text-right">{p.serviceList.headers.price}</th>
-                      <th className="hidden sm:table-cell px-5 py-4 font-semibold text-right whitespace-nowrap">{p.serviceList.headers.unit}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {p.serviceList.items.map((item, i) => (
-                      <tr key={item.name} className={`border-t border-border transition-colors hover:bg-secondary/40 ${i % 2 ? "bg-secondary/20" : ""}`}>
-                        <td className="px-5 py-4 font-semibold text-ink">{item.name}</td>
-                        <td className="hidden sm:table-cell px-5 py-4 text-muted-foreground">{item.desc}</td>
-                        <td className="px-5 py-4 text-right font-bold text-primary whitespace-nowrap">{item.price}</td>
-                        <td className="hidden sm:table-cell px-5 py-4 text-right text-muted-foreground whitespace-nowrap">{item.unit}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </FadeUp>
-      </div>
-    </section>
-  );
-}
-
 /* ---------- Testimonials ---------- */
 
 function Testimonials() {
@@ -932,7 +838,6 @@ function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li><a href="#services" className="hover:text-ink">{t.nav.services}</a></li>
             <li><a href="#portfolio" className="hover:text-ink">{t.nav.portfolio}</a></li>
-            <li><a href="#pricing" className="hover:text-ink">{t.nav.pricing}</a></li>
             <li><a href="#faq" className="hover:text-ink">{t.nav.faq}</a></li>
           </ul>
         </div>
@@ -978,7 +883,6 @@ function LandingPage() {
         <WhyChoose />
         <Process />
         <Portfolio />
-        <Pricing />
         <Testimonials />
         <FAQ />
         <FinalCTA />
